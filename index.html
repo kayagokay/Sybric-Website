@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sybric — Network & Security Consulting</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --black:    #120904;
+      --deep:     #1E1008;
+      --amber:    #C17A2A;
+      --gold:     #E8A84B;
+      --cream:    #F5F3F0;
+      --gray:     #8A7A6E;
+      --border:   #D3D1C7;
+      --white:    #FFFFFF;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23n)' opacity='0.028'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ── Typography ── */
+    .font-display { font-family: 'Montserrat', sans-serif; }
+
+    .text-amber {
+      background: linear-gradient(90deg, var(--amber) 0%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Nav ── */
+    .nav-dark {
+      background: rgba(18,9,4,0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(193,122,42,0.12);
+    }
+
+    .nav-link {
+      font-size: 0.875rem;
+      color: rgba(245,243,240,0.6);
+      transition: color 0.15s ease;
+      font-weight: 500;
+    }
+    .nav-link:hover { color: var(--gold); }
+    .nav-link:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; border-radius: 3px; }
+
+    /* ── Buttons ── */
+    .btn-amber {
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: var(--black);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      border-radius: 6px;
+      transition: opacity 0.18s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-amber:hover  { opacity: 0.88; transform: translateY(-2px); }
+    .btn-amber:active { opacity: 1;    transform: translateY(0); }
+    .btn-amber:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    .btn-outline {
+      border: 1.5px solid rgba(232,168,75,0.4);
+      color: var(--gold);
+      font-weight: 600;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      border-radius: 6px;
+      transition: background 0.18s ease, border-color 0.18s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-outline:hover  { background: rgba(232,168,75,0.08); border-color: var(--gold); transform: translateY(-2px); }
+    .btn-outline:active { transform: translateY(0); }
+    .btn-outline:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+
+    .btn-dark {
+      background: var(--black);
+      color: var(--cream);
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.875rem;
+      letter-spacing: 0.03em;
+      border-radius: 6px;
+      transition: background 0.18s ease, transform 0.2s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    .btn-dark:hover  { background: var(--deep); transform: translateY(-2px); }
+    .btn-dark:active { transform: translateY(0); }
+    .btn-dark:focus-visible { outline: 2px solid var(--amber); outline-offset: 3px; }
+
+    /* ── Cards ── */
+    .card-light {
+      background: var(--white);
+      border: 1px solid var(--border);
+    }
+    .card-dark {
+      background: rgba(30,16,8,0.55);
+      border: 1px solid rgba(193,122,42,0.12);
+    }
+    .card-lift {
+      transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease;
+    }
+    .card-lift:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 56px rgba(193,122,42,0.1), 0 4px 16px rgba(0,0,0,0.1);
+    }
+
+    /* ── Amber line ── */
+    .amber-line {
+      height: 2px;
+      background: linear-gradient(90deg, var(--amber), var(--gold));
+      border-radius: 2px;
+    }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: var(--border); }
+    .divider-amber { height: 1px; background: linear-gradient(90deg, transparent, rgba(193,122,42,0.4), transparent); }
+
+    /* ── Label style ── */
+    .label-tag {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+    }
+
+    /* ── Section bg ── */
+    .bg-dark { background: var(--black); }
+    .bg-deep { background: var(--deep); }
+    .bg-cream { background: var(--cream); }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.7s cubic-bezier(0.22,1,0.36,1) both; }
+    .d1 { animation-delay: 0.1s; }
+    .d2 { animation-delay: 0.2s; }
+    .d3 { animation-delay: 0.32s; }
+    .d4 { animation-delay: 0.44s; }
+
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .blink { animation: blink 2.4s ease-in-out infinite; }
+
+    /* ── Cred badge ── */
+    .cred-badge {
+      background: linear-gradient(135deg, rgba(193,122,42,0.15), rgba(232,168,75,0.08));
+      border: 1px solid rgba(193,122,42,0.25);
+    }
+
+    /* ── Service icon ring ── */
+    .icon-ring {
+      background: linear-gradient(135deg, rgba(193,122,42,0.14), rgba(232,168,75,0.06));
+      border: 1px solid rgba(193,122,42,0.18);
+      border-radius: 12px;
+    }
+
+    /* ── Stat item ── */
+    .stat-divider { width: 1px; background: rgba(193,122,42,0.2); }
+
+    /* ── Form inputs ── */
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 6px;
+      font-size: 0.875rem;
+      color: var(--black);
+      background: var(--white);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+    .form-input:focus { border-color: var(--amber); }
+    .form-input::placeholder { color: #C5B9AF; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--amber); }
+
+    /* Focus global */
+    :focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ NAV ════════════════════════════════ -->
+<nav class="nav-dark fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="flex items-center justify-between h-[68px]">
+
+      <!-- Logo -->
+      <a href="#" class="flex flex-col leading-none select-none">
+        <span class="font-display font-black text-[1.55rem] tracking-[-0.01em] text-amber">SYBRIC</span>
+        <span class="label-tag text-[0.58rem] tracking-[0.22em] mt-[-2px]" style="color:rgba(232,168,75,0.45);">System Bricks</span>
+      </a>
+
+      <!-- Links -->
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#services"     class="nav-link">Services</a>
+        <a href="#credentials"  class="nav-link">Credentials</a>
+        <a href="#approach"     class="nav-link">Approach</a>
+        <a href="#partners"     class="nav-link">Partners</a>
+      </div>
+
+      <!-- CTAs -->
+      <div class="flex items-center gap-3">
+        <a href="#contact"   class="btn-outline hidden md:inline-flex items-center px-4 py-2.5">Contact</a>
+        <a href="#schedule"  class="btn-amber inline-flex items-center gap-2 px-5 py-2.5">
+          Book a Call
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+
+<!-- ════════════════════════════ HERO (dark) ═══════════════════════════ -->
+<section id="heroSection" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;padding-top:68px;background:#120904;">
+
+  <!-- Full-background animated canvas -->
+  <canvas id="heroNet" style="position:absolute;top:0;left:0;display:block;"></canvas>
+
+  <!-- Left-to-right gradient: keeps text legible, reveals animation on right -->
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,rgba(18,9,4,0.96) 0%,rgba(18,9,4,0.85) 28%,rgba(18,9,4,0.5) 55%,rgba(18,9,4,0.08) 100%);"></div>
+
+  <!-- Bottom fade -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:120px;pointer-events:none;background:linear-gradient(to top,rgba(18,9,4,0.65),transparent);"></div>
+
+  <!-- Amber bottom line -->
+  <div style="position:absolute;bottom:0;left:0;right:0;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(193,122,42,0.6),rgba(232,168,75,0.6),transparent);"></div>
+
+  <!-- Content -->
+  <div style="position:relative;z-index:10;width:100%;max-width:1280px;margin:0 auto;padding:7rem 2.5rem;">
+    <div style="max-width:640px;">
+
+      <!-- Badge -->
+      <div class="fade-up cred-badge inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-9">
+        <span class="blink w-1.5 h-1.5 rounded-full" style="background:var(--gold);"></span>
+        <span class="label-tag" style="color:var(--gold);">CCIE #37316 &nbsp;·&nbsp; 20 Years Enterprise Experience</span>
+      </div>
+
+      <!-- H1 -->
+      <h1 class="fade-up d1 font-display font-black" style="font-size:clamp(52px,7vw,92px);line-height:0.92;letter-spacing:-0.025em;color:var(--cream);margin-bottom:1.75rem;">
+        NETWORK &amp;<br>
+        <span class="text-amber">SECURITY</span><br>
+        CONSULTING
+      </h1>
+
+      <!-- Sub -->
+      <p class="fade-up d2" style="line-height:1.75;max-width:520px;margin-bottom:2.75rem;color:rgba(245,243,240,0.62);font-size:1.08rem;">
+        Sybric delivers vendor-neutral, enterprise-grade network and security consulting — helping organizations build infrastructure that is secure, resilient, and aligned with business strategy.
+      </p>
+
+      <!-- CTAs -->
+      <div class="fade-up d3" style="display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:3.5rem;">
+        <a href="#schedule" class="btn-amber inline-flex items-center gap-2 px-8 py-4 text-base">
+          Schedule a Consultation
+          <svg style="width:1rem;height:1rem;" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="#services" class="btn-outline inline-flex items-center gap-2 px-8 py-4 text-base">View Services</a>
+      </div>
+
+      <!-- Stats -->
+      <div class="fade-up d4" style="display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap;">
+        <div>
+          <div class="font-display font-black text-3xl text-amber">20+</div>
+          <div class="label-tag mt-1" style="color:rgba(245,243,240,0.4);">Years Experience</div>
+        </div>
+        <div class="stat-divider hidden sm:block" style="height:40px;"></div>
+        <div>
+          <div class="font-display font-black text-3xl text-amber">CCIE</div>
+          <div class="label-tag mt-1" style="color:rgba(245,243,240,0.4);">#37316 Certified</div>
+        </div>
+        <div class="stat-divider hidden sm:block" style="height:40px;"></div>
+        <div>
+          <div class="font-display font-black text-3xl text-amber">100%</div>
+          <div class="label-tag mt-1" style="color:rgba(245,243,240,0.4);">Vendor Neutral</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scroll cue -->
+  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0.3;pointer-events:none;">
+    <div style="width:1px;height:40px;background:linear-gradient(to bottom,#C17A2A,transparent);"></div>
+  </div>
+
+  <script>
+  (function(){
+    var canvas = document.getElementById('heroNet');
+    var ctx    = canvas.getContext('2d');
+    var W = 0, H = 0;
+    var dpr = window.devicePixelRatio || 1;
+
+    function resize(){
+      var sec = document.getElementById('heroSection');
+      W = sec.offsetWidth;
+      H = sec.offsetHeight;
+      canvas.width  = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    /* ── Particles ─────────────────────────────────────────────────── */
+    var COUNT = 90;
+    var LINK  = 160;   /* max px distance for a connection line */
+    var pts   = [];
+
+    function initParticles(){
+      pts = [];
+      for(var i = 0; i < COUNT; i++){
+        pts.push({
+          x:  Math.random() * W,
+          y:  Math.random() * H,
+          vx: (Math.random() - 0.5) * 0.28,
+          vy: (Math.random() - 0.5) * 0.28,
+          r:  1 + Math.random() * 1.8,
+          ph: Math.random() * Math.PI * 2   /* pulse phase */
+        });
+      }
+    }
+
+    /* ── Data pulses travelling along active edges ─────────────────── */
+    var pulses = [];
+    var tick   = 0;
+
+    function spawnPulse(ax,ay,bx,by){
+      pulses.push({ ax:ax, ay:ay, bx:bx, by:by, t:0, spd: 0.008 + Math.random()*0.006 });
+    }
+
+    /* ── Draw ──────────────────────────────────────────────────────── */
+    function frame(){
+      tick++;
+      ctx.clearRect(0, 0, W, H);
+
+      /* background */
+      ctx.fillStyle = '#120904';
+      ctx.fillRect(0, 0, W, H);
+
+      /* subtle dot grid */
+      ctx.fillStyle = 'rgba(193,122,42,0.06)';
+      var gs = 44;
+      for(var gx = gs; gx < W; gx += gs)
+        for(var gy = gs; gy < H; gy += gs){
+          ctx.beginPath();
+          ctx.arc(gx, gy, 0.8, 0, Math.PI*2);
+          ctx.fill();
+        }
+
+      /* move particles & bounce */
+      for(var i = 0; i < pts.length; i++){
+        var p = pts[i];
+        p.x += p.vx;  p.y += p.vy;  p.ph += 0.022;
+        if(p.x < 0){ p.x = 0; p.vx *= -1; }
+        if(p.x > W){ p.x = W; p.vx *= -1; }
+        if(p.y < 0){ p.y = 0; p.vy *= -1; }
+        if(p.y > H){ p.y = H; p.vy *= -1; }
+      }
+
+      /* connection lines + pulse spawning */
+      ctx.save();
+      for(var i = 0; i < pts.length; i++){
+        for(var j = i+1; j < pts.length; j++){
+          var a = pts[i], b = pts[j];
+          var dx = a.x - b.x, dy = a.y - b.y;
+          var d  = Math.sqrt(dx*dx + dy*dy);
+          if(d < LINK){
+            var alpha = (1 - d/LINK) * 0.38;
+            ctx.strokeStyle = 'rgba(193,122,42,' + alpha + ')';
+            ctx.lineWidth   = (1 - d/LINK) * 1.1;
+            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+            /* randomly spawn a pulse on this edge */
+            if(tick % 90 === 0 && Math.random() < 0.04)
+              spawnPulse(a.x, a.y, b.x, b.y);
+          }
+        }
+      }
+      ctx.restore();
+
+      /* draw + advance pulses */
+      var alive = [];
+      for(var k = 0; k < pulses.length; k++){
+        var pu = pulses[k];
+        pu.t += pu.spd;
+        if(pu.t > 1) continue;
+        alive.push(pu);
+        var px = pu.ax + (pu.bx - pu.ax) * pu.t;
+        var py = pu.ay + (pu.by - pu.ay) * pu.t;
+        var g  = ctx.createRadialGradient(px,py,0, px,py,8);
+        g.addColorStop(0,   'rgba(245,243,240,1)');
+        g.addColorStop(0.3, 'rgba(232,168,75,0.85)');
+        g.addColorStop(0.7, 'rgba(193,122,42,0.25)');
+        g.addColorStop(1,   'rgba(193,122,42,0)');
+        ctx.beginPath(); ctx.arc(px, py, 8, 0, Math.PI*2);
+        ctx.fillStyle = g; ctx.fill();
+      }
+      pulses = alive;
+
+      /* draw particles */
+      for(var i = 0; i < pts.length; i++){
+        var p   = pts[i];
+        var glo = 0.5 + 0.5 * Math.sin(p.ph);
+        /* outer glow */
+        var pg  = ctx.createRadialGradient(p.x,p.y,0, p.x,p.y, p.r*5);
+        pg.addColorStop(0,  'rgba(193,122,42,' + (0.22*glo) + ')');
+        pg.addColorStop(1,  'rgba(193,122,42,0)');
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r*5, 0, Math.PI*2);
+        ctx.fillStyle = pg; ctx.fill();
+        /* bright core */
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        ctx.fillStyle = 'rgba(232,168,75,' + (0.7 + 0.3*glo) + ')';
+        ctx.fill();
+      }
+
+      requestAnimationFrame(frame);
+    }
+
+    resize();
+    initParticles();
+    window.addEventListener('resize', function(){ resize(); initParticles(); });
+    frame();
+  })();
+  </script>
+
+</section>
+
+
+<!-- ═══════════════════════════ TRUST BAR (light) ══════════════════════ -->
+<section class="bg-cream py-12" style="border-bottom:1px solid var(--border);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <p class="text-center label-tag mb-8" style="color:var(--border);">Trusted by leading organizations</p>
+    <div class="flex flex-wrap justify-center items-center gap-6 lg:gap-10">
+      <div class="card-light rounded-lg px-6 py-3 card-lift cursor-default"><span class="font-display font-semibold text-sm" style="color:var(--gray);">ACME Corp</span></div>
+      <div class="card-light rounded-lg px-6 py-3 card-lift cursor-default"><span class="font-display font-semibold text-sm" style="color:var(--gray);">TechNova</span></div>
+      <div class="card-light rounded-lg px-6 py-3 card-lift cursor-default"><span class="font-display font-semibold text-sm" style="color:var(--gray);">Meridian</span></div>
+      <div class="card-light rounded-lg px-6 py-3 card-lift cursor-default"><span class="font-display font-semibold text-sm" style="color:var(--gray);">Vortex Labs</span></div>
+      <div class="card-light rounded-lg px-6 py-3 card-lift cursor-default"><span class="font-display font-semibold text-sm" style="color:var(--gray);">Orbis AI</span></div>
+      <div class="card-light rounded-lg px-6 py-3 card-lift cursor-default"><span class="font-display font-semibold text-sm" style="color:var(--gray);">Crestline</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════ SERVICES (white) ══════════════════════ -->
+<section id="services" class="py-24 lg:py-32 bg-white">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="max-w-2xl mb-16">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="amber-line w-8"></div>
+        <span class="label-tag" style="color:var(--amber);">Our Services</span>
+      </div>
+      <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-5"
+          style="font-size:clamp(36px,5vw,58px);color:var(--black);">
+        ENGINEERING<br>
+        <span class="text-amber">SECURE NETWORKS</span>
+      </h2>
+      <p class="leading-[1.75]" style="color:var(--gray);font-size:1.05rem;">
+        From architecture to implementation — we deliver the full stack of network and security services that enterprise organizations require.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+      <!-- S1 -->
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="icon-ring w-12 h-12 flex items-center justify-center mb-6">
+          <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-[1.1rem] tracking-tight mb-3" style="color:var(--black);">Network Architecture</h3>
+        <p class="text-sm leading-[1.75]" style="color:var(--gray);">Design and implementation of scalable, high-availability network architectures. LAN/WAN, SD-WAN, and data center networking tailored to your operational requirements.</p>
+      </div>
+
+      <!-- S2 -->
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="icon-ring w-12 h-12 flex items-center justify-center mb-6">
+          <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-[1.1rem] tracking-tight mb-3" style="color:var(--black);">Security Assessment</h3>
+        <p class="text-sm leading-[1.75]" style="color:var(--gray);">Comprehensive security audits, vulnerability assessments, and penetration testing. Identify and remediate gaps before adversaries can exploit them.</p>
+      </div>
+
+      <!-- S3 -->
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="icon-ring w-12 h-12 flex items-center justify-center mb-6">
+          <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-[1.1rem] tracking-tight mb-3" style="color:var(--black);">Firewall &amp; Zero Trust</h3>
+        <p class="text-sm leading-[1.75]" style="color:var(--gray);">Next-generation firewall deployment, micro-segmentation, and zero-trust network access implementation. Reduce attack surface across cloud and on-premise environments.</p>
+      </div>
+
+      <!-- S4 -->
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="icon-ring w-12 h-12 flex items-center justify-center mb-6">
+          <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-[1.1rem] tracking-tight mb-3" style="color:var(--black);">Cloud Networking</h3>
+        <p class="text-sm leading-[1.75]" style="color:var(--gray);">Hybrid and multi-cloud network design. Secure connectivity between on-premise infrastructure and AWS, Azure, and GCP — with consistent policy enforcement.</p>
+      </div>
+
+      <!-- S5 -->
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="icon-ring w-12 h-12 flex items-center justify-center mb-6">
+          <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-[1.1rem] tracking-tight mb-3" style="color:var(--black);">NOC / SOC Consulting</h3>
+        <p class="text-sm leading-[1.75]" style="color:var(--gray);">Network and security operations center design, tooling selection, and process development. Improve mean-time-to-detect and mean-time-to-respond across your organization.</p>
+      </div>
+
+      <!-- S6 -->
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="icon-ring w-12 h-12 flex items-center justify-center mb-6">
+          <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-[1.1rem] tracking-tight mb-3" style="color:var(--black);">Compliance &amp; Governance</h3>
+        <p class="text-sm leading-[1.75]" style="color:var(--gray);">Infrastructure alignment with ISO 27001, NIST, and industry-specific frameworks. Gap analysis, remediation roadmaps, and audit-ready documentation.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ CREDENTIALS (dark) ════════════════════════ -->
+<section id="credentials" class="bg-dark py-24 lg:py-32 relative overflow-hidden">
+  <div class="pointer-events-none absolute inset-0"
+       style="background:radial-gradient(ellipse at 60% 50%,rgba(193,122,42,0.09) 0%,transparent 60%);"></div>
+  <div class="divider-amber absolute bottom-0 left-0 right-0"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 relative">
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+
+      <!-- Left: copy -->
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="amber-line w-8"></div>
+          <span class="label-tag" style="color:var(--amber);">Why Sybric</span>
+        </div>
+        <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-6"
+            style="font-size:clamp(36px,5vw,58px);color:var(--cream);">
+          AUTHORITY YOU<br>
+          <span class="text-amber">CAN MEASURE</span>
+        </h2>
+        <p class="leading-[1.75] mb-10 max-w-lg" style="color:rgba(245,243,240,0.6);font-size:1.05rem;">
+          Our recommendations are built on 20 years of hands-on CCIE-level experience. We speak with authority — and we recommend what is right for the client, not the vendor.
+        </p>
+
+        <div class="space-y-4">
+          <div class="flex items-start gap-4">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.18);">
+              <svg class="w-3 h-3" style="color:var(--gold);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:rgba(245,243,240,0.65);">Vendor-neutral advice — we recommend what is right for your environment, not a vendor's portfolio</span>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.18);">
+              <svg class="w-3 h-3" style="color:var(--gold);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:rgba(245,243,240,0.65);">CCIE #37316 — highest-level Cisco certification, validated by global examination</span>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.18);">
+              <svg class="w-3 h-3" style="color:var(--gold);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:rgba(245,243,240,0.65);">Clear, direct communication — no jargon for its own sake. We explain what matters and why</span>
+          </div>
+          <div class="flex items-start gap-4">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.18);">
+              <svg class="w-3 h-3" style="color:var(--gold);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:rgba(245,243,240,0.65);">Outcome-focused engagements — every recommendation states what the organization gains, not just what the technology does</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: stat grid -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="card-dark card-lift rounded-2xl p-7" style="border-color:rgba(193,122,42,0.2);">
+          <div class="font-display font-black leading-none mb-2 text-amber" style="font-size:2.8rem;">CCIE</div>
+          <div class="label-tag mb-1" style="color:rgba(232,168,75,0.55);">#37316</div>
+          <p class="text-xs leading-relaxed" style="color:rgba(245,243,240,0.45);">Cisco Certified Internetwork Expert — highest-level enterprise networking credential</p>
+        </div>
+        <div class="card-dark card-lift rounded-2xl p-7">
+          <div class="font-display font-black leading-none mb-2 text-amber" style="font-size:2.8rem;">20+</div>
+          <div class="label-tag mb-1" style="color:rgba(232,168,75,0.55);">Years</div>
+          <p class="text-xs leading-relaxed" style="color:rgba(245,243,240,0.45);">Hands-on enterprise infrastructure design and implementation experience</p>
+        </div>
+        <div class="card-dark card-lift rounded-2xl p-7">
+          <div class="font-display font-black leading-none mb-2 text-amber" style="font-size:2.8rem;">100%</div>
+          <div class="label-tag mb-1" style="color:rgba(232,168,75,0.55);">Vendor Neutral</div>
+          <p class="text-xs leading-relaxed" style="color:rgba(245,243,240,0.45);">Independent advice unconstrained by reseller agreements or vendor incentives</p>
+        </div>
+        <div class="card-dark card-lift rounded-2xl p-7">
+          <div class="font-display font-black leading-none mb-2 text-amber" style="font-size:2.8rem;">ENT</div>
+          <div class="label-tag mb-1" style="color:rgba(232,168,75,0.55);">Grade</div>
+          <p class="text-xs leading-relaxed" style="color:rgba(245,243,240,0.45);">Fortune-class network architectures and security programs delivered at scale</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════ APPROACH (light) ══════════════════════ -->
+<section id="approach" class="py-24 lg:py-32 bg-cream">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="text-center max-w-xl mx-auto mb-16">
+      <div class="flex items-center justify-center gap-3 mb-5">
+        <div class="amber-line w-8"></div>
+        <span class="label-tag" style="color:var(--amber);">How We Work</span>
+        <div class="amber-line w-8"></div>
+      </div>
+      <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-5"
+          style="font-size:clamp(36px,5vw,58px);color:var(--black);">
+        FROM ASSESSMENT<br>
+        <span class="text-amber">TO RESOLUTION</span>
+      </h2>
+      <p class="leading-[1.75]" style="color:var(--gray);">A structured engagement model that delivers clear outcomes at every stage.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-4 gap-5">
+
+      <div class="card-light card-lift rounded-2xl p-8 relative">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+             style="background:linear-gradient(135deg,rgba(193,122,42,0.12),rgba(232,168,75,0.06));border:1px solid rgba(193,122,42,0.15);">
+          <span class="font-display font-black text-lg text-amber">01</span>
+        </div>
+        <h3 class="font-display font-bold text-base tracking-tight mb-3" style="color:var(--black);">Discovery</h3>
+        <p class="text-sm leading-[1.7]" style="color:var(--gray);">We map your current state — topology, policies, tooling, and gaps. No assumptions, only observed facts.</p>
+      </div>
+
+      <div class="card-light card-lift rounded-2xl p-8 relative" style="border-color:rgba(193,122,42,0.22);">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+             style="background:linear-gradient(135deg,rgba(193,122,42,0.18),rgba(232,168,75,0.1));border:1px solid rgba(193,122,42,0.25);">
+          <span class="font-display font-black text-lg text-amber">02</span>
+        </div>
+        <h3 class="font-display font-bold text-base tracking-tight mb-3" style="color:var(--black);">Analysis</h3>
+        <p class="text-sm leading-[1.7]" style="color:var(--gray);">Risk quantification, root-cause identification, and benchmarking against industry standards and your business objectives.</p>
+      </div>
+
+      <div class="card-light card-lift rounded-2xl p-8 relative">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+             style="background:linear-gradient(135deg,rgba(193,122,42,0.12),rgba(232,168,75,0.06));border:1px solid rgba(193,122,42,0.15);">
+          <span class="font-display font-black text-lg text-amber">03</span>
+        </div>
+        <h3 class="font-display font-bold text-base tracking-tight mb-3" style="color:var(--black);">Design</h3>
+        <p class="text-sm leading-[1.7]" style="color:var(--gray);">Vendor-neutral architecture and remediation roadmap. Prioritized by risk, cost, and operational feasibility.</p>
+      </div>
+
+      <div class="card-light card-lift rounded-2xl p-8 relative">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6"
+             style="background:linear-gradient(135deg,rgba(193,122,42,0.12),rgba(232,168,75,0.06));border:1px solid rgba(193,122,42,0.15);">
+          <span class="font-display font-black text-lg text-amber">04</span>
+        </div>
+        <h3 class="font-display font-bold text-base tracking-tight mb-3" style="color:var(--black);">Implementation</h3>
+        <p class="text-sm leading-[1.7]" style="color:var(--gray);">Hands-on deployment, change management, and knowledge transfer — so your team owns what we build.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ TESTIMONIALS (white) ═══════════════════ -->
+<section class="py-24 bg-white" style="border-top:1px solid var(--border);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+    <div class="flex items-center gap-3 mb-14">
+      <div class="amber-line w-8"></div>
+      <span class="label-tag" style="color:var(--amber);">Client Feedback</span>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-5">
+
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="flex gap-1 mb-6">
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-sm leading-[1.8] mb-7" style="color:#5A4E46;">"Sybric's assessment identified critical segmentation gaps we had overlooked for years. The remediation plan was clear, vendor-neutral, and delivered on time. Exactly the engagement we needed."</p>
+        <div class="flex items-center gap-3.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0"
+               style="background:rgba(193,122,42,0.1);color:var(--amber);">MR</div>
+          <div>
+            <div class="font-semibold text-sm" style="color:var(--black);">Marcus Reynolds</div>
+            <div class="text-xs" style="color:var(--gray);">CISO, TechNova Group</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="flex gap-1 mb-6">
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-sm leading-[1.8] mb-7" style="color:#5A4E46;">"The SD-WAN migration Sybric designed reduced our operational costs by 35% while improving resilience. Their CCIE-level expertise was evident throughout — no hand-waving, just sound engineering."</p>
+        <div class="flex items-center gap-3.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0"
+               style="background:rgba(66,168,120,0.1);color:#42a878;">SL</div>
+          <div>
+            <div class="font-semibold text-sm" style="color:var(--black);">Sara Lindström</div>
+            <div class="text-xs" style="color:var(--gray);">Head of Infrastructure, Meridian</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-light card-lift rounded-2xl p-8">
+        <div class="flex gap-1 mb-6">
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1.903 0 011.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg class="w-4 h-4" style="color:var(--amber);" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-sm leading-[1.8] mb-7" style="color:#5A4E46;">"When we needed ISO 27001 compliance mapped to our network posture, Sybric delivered a gap analysis that was both technically rigorous and immediately actionable. No unnecessary complexity."</p>
+        <div class="flex items-center gap-3.5">
+          <div class="w-9 h-9 rounded-full flex items-center justify-center text-[11px] font-bold flex-shrink-0"
+               style="background:rgba(66,108,200,0.1);color:#4268c8;">JK</div>
+          <div>
+            <div class="font-semibold text-sm" style="color:var(--black);">James Kowalski</div>
+            <div class="text-xs" style="color:var(--gray);">CTO, Orbis AI</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════ PARTNERS (cream) ══════════════════════════ -->
+<section id="partners" class="py-24 bg-cream" style="border-top:1px solid var(--border);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-20 items-start">
+
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="amber-line w-8"></div>
+          <span class="label-tag" style="color:var(--amber);">Partner Program</span>
+        </div>
+        <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-6"
+            style="font-size:clamp(36px,5vw,58px);color:var(--black);">
+          BUILD TOGETHER,<br>
+          <span class="text-amber">GROW TOGETHER</span>
+        </h2>
+        <p class="leading-[1.75] mb-10 max-w-lg" style="color:var(--gray);font-size:1.05rem;">
+          Sybric partners with systems integrators, managed service providers, and technology vendors to extend enterprise-grade network and security capabilities to a broader client base.
+        </p>
+
+        <ul class="space-y-4 mb-11">
+          <li class="flex items-start gap-3.5">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.12);">
+              <svg class="w-3 h-3" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:#5A4E46;">Co-delivery on complex network and security engagements</span>
+          </li>
+          <li class="flex items-start gap-3.5">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.12);">
+              <svg class="w-3 h-3" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:#5A4E46;">Technical pre-sales support and solution architecture</span>
+          </li>
+          <li class="flex items-start gap-3.5">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.12);">
+              <svg class="w-3 h-3" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:#5A4E46;">Revenue sharing and transparent referral program</span>
+          </li>
+          <li class="flex items-start gap-3.5">
+            <div class="w-5 h-5 rounded-full flex-shrink-0 mt-0.5 flex items-center justify-center"
+                 style="background:rgba(193,122,42,0.12);">
+              <svg class="w-3 h-3" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+            </div>
+            <span class="text-sm leading-[1.7]" style="color:#5A4E46;">Joint go-to-market for target verticals and geographies</span>
+          </li>
+        </ul>
+
+        <a href="#contact" class="btn-amber inline-flex items-center gap-2 px-8 py-4">
+          Enquire About Partnership
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+      </div>
+
+      <!-- Partner logos / logo showcase -->
+      <div class="flex flex-col gap-5">
+        <!-- Vendor logo grid -->
+        <div class="grid grid-cols-3 gap-3">
+
+          <!-- Fortinet — simpleicons official mark -->
+          <div class="card-light card-lift rounded-xl flex flex-col items-center justify-center gap-2.5 p-5" style="min-height:96px;">
+            <img src="https://cdn.simpleicons.org/fortinet/EE3124" alt="Fortinet" style="width:36px;height:36px;">
+            <span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#3A3530;letter-spacing:0.02em;">Fortinet</span>
+          </div>
+
+          <!-- Cisco — vectorlogo full wordmark -->
+          <div class="card-light card-lift rounded-xl flex flex-col items-center justify-center gap-2.5 p-5" style="min-height:96px;">
+            <img src="https://www.vectorlogo.zone/logos/cisco/cisco-ar21.svg" alt="Cisco" style="width:80px;height:36px;object-fit:contain;">
+          </div>
+
+          <!-- Arista — official logo -->
+          <div class="card-light card-lift rounded-xl flex flex-col items-center justify-center gap-2.5 p-5" style="min-height:96px;">
+            <img src="brand_assets/Arista-networks-logo.svg.png" alt="Arista Networks" style="width:90px;height:40px;object-fit:contain;">
+          </div>
+
+          <!-- Palo Alto Networks — simpleicons official mark -->
+          <div class="card-light card-lift rounded-xl flex flex-col items-center justify-center gap-2.5 p-5" style="min-height:96px;">
+            <img src="https://cdn.simpleicons.org/paloaltonetworks/F04E23" alt="Palo Alto Networks" style="width:36px;height:36px;">
+            <span style="font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:#3A3530;letter-spacing:0.02em;text-align:center;line-height:1.3;">Palo Alto<br>Networks</span>
+          </div>
+
+          <!-- F5 — simpleicons official mark -->
+          <div class="card-light card-lift rounded-xl flex flex-col items-center justify-center gap-2.5 p-5" style="min-height:96px;">
+            <img src="https://cdn.simpleicons.org/f5/E4002B" alt="F5" style="width:36px;height:36px;">
+            <span style="font-family:'Inter',sans-serif;font-size:11px;font-weight:600;color:#3A3530;letter-spacing:0.02em;">F5</span>
+          </div>
+
+          <!-- Citrix — vectorlogo full wordmark -->
+          <div class="card-light card-lift rounded-xl flex flex-col items-center justify-center gap-2.5 p-5" style="min-height:96px;">
+            <img src="https://www.vectorlogo.zone/logos/citrix/citrix-ar21.svg" alt="Citrix" style="width:80px;height:36px;object-fit:contain;">
+          </div>
+
+        </div>
+        <!-- Partner type cards -->
+        <div class="grid grid-cols-2 gap-4">
+          <div class="card-light card-lift rounded-xl p-5">
+            <div class="label-tag mb-2" style="color:var(--amber);">Systems Integrators</div>
+            <p class="text-xs leading-relaxed" style="color:var(--gray);">Extend specialist capability to your clients without building an in-house CCIE team</p>
+          </div>
+          <div class="card-light card-lift rounded-xl p-5">
+            <div class="label-tag mb-2" style="color:var(--amber);">MSPs</div>
+            <p class="text-xs leading-relaxed" style="color:var(--gray);">Add high-margin security consulting to your managed service portfolio</p>
+          </div>
+          <div class="card-light card-lift rounded-xl p-5">
+            <div class="label-tag mb-2" style="color:var(--amber);">Technology Vendors</div>
+            <p class="text-xs leading-relaxed" style="color:var(--gray);">Independent validation and deployment expertise that accelerates customer adoption</p>
+          </div>
+          <div class="card-light card-lift rounded-xl p-5">
+            <div class="label-tag mb-2" style="color:var(--amber);">Referral Partners</div>
+            <p class="text-xs leading-relaxed" style="color:var(--gray);">Simple referral arrangement with transparent commission on closed engagements</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════ CTA BANNER (dark) ══════════════════════ -->
+<section id="schedule" class="bg-dark py-24 relative overflow-hidden">
+  <div class="pointer-events-none absolute inset-0"
+       style="background:radial-gradient(ellipse at 50% 50%,rgba(193,122,42,0.1) 0%,transparent 65%);"></div>
+  <div class="pointer-events-none absolute inset-0 opacity-[0.018]"
+       style="background-image:linear-gradient(rgba(193,122,42,1) 1px,transparent 1px),linear-gradient(90deg,rgba(193,122,42,1) 1px,transparent 1px);background-size:48px 48px;"></div>
+  <!-- Amber footer line -->
+  <div class="absolute bottom-0 left-0 right-0" style="height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--gold),transparent);"></div>
+
+  <div class="max-w-3xl mx-auto px-6 lg:px-10 text-center relative">
+    <div class="cred-badge inline-flex items-center gap-2.5 px-4 py-2 rounded-full mb-8">
+      <span class="blink w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></span>
+      <span class="label-tag" style="color:var(--gold);">Available for New Engagements</span>
+    </div>
+    <h2 class="font-display font-extrabold leading-[0.92] tracking-[-0.025em] mb-6"
+        style="font-size:clamp(40px,6vw,72px);color:var(--cream);">
+      READY TO<br>
+      <span class="text-amber">SECURE YOUR NETWORK?</span>
+    </h2>
+    <p class="leading-[1.75] max-w-xl mx-auto mb-10" style="color:rgba(245,243,240,0.6);font-size:1.05rem;">
+      Schedule a 30-minute discovery call. We'll assess your current state and identify the highest-impact actions — no obligation, no sales pitch.
+    </p>
+    <div class="flex flex-wrap gap-4 justify-center">
+      <a href="mailto:gokay.kaya@sybric.com" class="btn-amber inline-flex items-center gap-2 px-9 py-4 text-base">
+        Schedule a Call
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+      </a>
+      <a href="#contact" class="btn-outline inline-flex items-center gap-2 px-9 py-4 text-base">
+        Send a Message
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════ CONTACT (light) ════════════════════════ -->
+<section id="contact" class="py-24 bg-white" style="border-top:1px solid var(--border);">
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid lg:grid-cols-2 gap-16">
+
+      <div>
+        <div class="flex items-center gap-3 mb-5">
+          <div class="amber-line w-8"></div>
+          <span class="label-tag" style="color:var(--amber);">Get in Touch</span>
+        </div>
+        <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-6"
+            style="font-size:clamp(36px,5vw,58px);color:var(--black);">
+          LET'S TALK<br>
+          <span class="text-amber">INFRASTRUCTURE</span>
+        </h2>
+        <p class="leading-[1.75] mb-10" style="color:var(--gray);font-size:1.05rem;">
+          Whether you're evaluating a security posture, planning a network refresh, or exploring a partnership — we're ready to help.
+        </p>
+
+        <div class="space-y-5">
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 icon-ring">
+              <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <div>
+              <div class="label-tag mb-0.5" style="color:var(--border);">Email</div>
+              <a href="mailto:gokay.kaya@sybric.com"
+                 class="text-sm font-medium transition-colors duration-150"
+                 style="color:var(--black);"
+                 onmouseover="this.style.color='var(--amber)'" onmouseout="this.style.color='var(--black)'">gokay.kaya@sybric.com</a>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 icon-ring">
+              <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            </div>
+            <div>
+              <div class="label-tag mb-0.5" style="color:var(--border);">Certification</div>
+              <span class="text-sm font-medium" style="color:var(--black);">CCIE #37316 — Network & Security</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-4">
+            <div class="w-11 h-11 rounded-xl flex items-center justify-center flex-shrink-0 icon-ring">
+              <svg class="w-5 h-5" style="color:var(--amber);" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+            </div>
+            <div>
+              <div class="label-tag mb-0.5" style="color:var(--border);">Website</div>
+              <span class="text-sm font-medium" style="color:var(--black);">sybric.com</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <div class="card-light rounded-2xl p-8 lg:p-9">
+        <form class="space-y-5" onsubmit="return false;">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block label-tag mb-2" style="color:var(--gray);">First Name</label>
+              <input type="text" placeholder="John" class="form-input">
+            </div>
+            <div>
+              <label class="block label-tag mb-2" style="color:var(--gray);">Last Name</label>
+              <input type="text" placeholder="Smith" class="form-input">
+            </div>
+          </div>
+          <div>
+            <label class="block label-tag mb-2" style="color:var(--gray);">Work Email</label>
+            <input type="email" placeholder="john@company.com" class="form-input">
+          </div>
+          <div>
+            <label class="block label-tag mb-2" style="color:var(--gray);">Company</label>
+            <input type="text" placeholder="Company Inc." class="form-input">
+          </div>
+          <div>
+            <label class="block label-tag mb-2" style="color:var(--gray);">I'm interested in…</label>
+            <select class="form-input" style="cursor:pointer;">
+              <option value="">Select an option</option>
+              <option>Network Architecture Review</option>
+              <option>Security Assessment</option>
+              <option>Firewall / Zero Trust</option>
+              <option>Cloud Networking</option>
+              <option>Partnership</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="block label-tag mb-2" style="color:var(--gray);">Message</label>
+            <textarea rows="4" placeholder="Tell us about your environment and what you're looking to achieve…" class="form-input" style="resize:none;"></textarea>
+          </div>
+          <button type="submit" class="btn-amber w-full py-3.5 text-base">
+            Send Message
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════ FOOTER (dark) ════════════════════════ -->
+<footer class="bg-black py-14" style="background:var(--black);">
+  <!-- Amber top line -->
+  <div style="height:2px;background:linear-gradient(90deg,transparent,var(--amber),var(--gold),transparent);margin-bottom:3.5rem;"></div>
+
+  <div class="max-w-7xl mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+
+      <div class="col-span-2">
+        <div class="flex flex-col leading-none mb-5">
+          <span class="font-display font-black text-[1.55rem] tracking-[-0.01em] text-amber">SYBRIC</span>
+          <span class="label-tag text-[0.58rem] tracking-[0.22em] mt-[-2px]" style="color:rgba(232,168,75,0.35);">System Bricks</span>
+        </div>
+        <p class="text-sm leading-[1.7] max-w-[260px]" style="color:rgba(245,243,240,0.4);">
+          Independent, enterprise-grade network and security consulting. CCIE #37316.
+        </p>
+      </div>
+
+      <div>
+        <h5 class="label-tag mb-5" style="color:rgba(193,122,42,0.4);">Services</h5>
+        <ul class="space-y-3.5">
+          <li><a href="#" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Network Architecture</a></li>
+          <li><a href="#" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Security Assessment</a></li>
+          <li><a href="#" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Firewall & Zero Trust</a></li>
+          <li><a href="#" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Compliance</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="label-tag mb-5" style="color:rgba(193,122,42,0.4);">Company</h5>
+        <ul class="space-y-3.5">
+          <li><a href="#credentials" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">About</a></li>
+          <li><a href="#partners" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Partners</a></li>
+          <li><a href="#approach" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Approach</a></li>
+          <li><a href="#contact" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--cream)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="label-tag mb-5" style="color:rgba(193,122,42,0.4);">Contact</h5>
+        <ul class="space-y-3.5">
+          <li><a href="mailto:gokay.kaya@sybric.com" class="text-sm transition-colors duration-150" style="color:rgba(245,243,240,0.4);" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='rgba(245,243,240,0.4)'">gokay.kaya@sybric.com</a></li>
+          <li><span class="text-sm" style="color:rgba(245,243,240,0.25);">CCIE #37316</span></li>
+          <li><span class="text-sm" style="color:rgba(245,243,240,0.25);">Istanbul, Turkey</span></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="divider-amber mb-8"></div>
+
+    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+      <p class="text-xs" style="color:rgba(245,243,240,0.25);">© 2026 Sybric Bilişim Ltd. Şti. — All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="text-xs transition-colors duration-150" style="color:rgba(245,243,240,0.25);" onmouseover="this.style.color='rgba(245,243,240,0.5)'" onmouseout="this.style.color='rgba(245,243,240,0.25)'">Privacy Policy</a>
+        <a href="#" class="text-xs transition-colors duration-150" style="color:rgba(245,243,240,0.25);" onmouseover="this.style.color='rgba(245,243,240,0.5)'" onmouseout="this.style.color='rgba(245,243,240,0.25)'">Terms</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
