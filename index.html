@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500&display=swap" rel="stylesheet">
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -167,6 +167,11 @@
     @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
     .blink { animation: blink 2.4s ease-in-out infinite; }
 
+    @keyframes heroScroll {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
     /* ── Cred badge ── */
     .cred-badge {
       background: linear-gradient(135deg, rgba(193,122,42,0.15), rgba(232,168,75,0.08));
@@ -244,16 +249,19 @@
 
 
 <!-- ════════════════════════════ HERO (dark) ═══════════════════════════ -->
-<section id="heroSection" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;padding-top:68px;background:#120904;">
+<section id="heroSection" style="position:relative;overflow:hidden;min-height:100vh;display:flex;align-items:center;padding-top:68px;background:#120904 url('hero_photo.jpg') center/cover no-repeat;">
 
-  <!-- Full-background animated canvas -->
+  <!-- Dark overlay for readability -->
+  <div style="position:absolute;inset:0;pointer-events:none;background:rgba(8,5,2,0.35);"></div>
+
+  <!-- Full-background animated canvas (semi-transparent so photo shows through) -->
   <canvas id="heroNet" style="position:absolute;top:0;left:0;display:block;"></canvas>
 
-  <!-- Left-to-right gradient: keeps text legible, reveals animation on right -->
-  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,rgba(18,9,4,0.96) 0%,rgba(18,9,4,0.85) 28%,rgba(18,9,4,0.5) 55%,rgba(18,9,4,0.08) 100%);"></div>
+  <!-- Left-to-right gradient: keeps text legible, reveals photo on right -->
+  <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(105deg,rgba(8,5,2,0.65) 0%,rgba(8,5,2,0.40) 35%,rgba(8,5,2,0.10) 65%,rgba(8,5,2,0.0) 100%);"></div>
 
   <!-- Bottom fade -->
-  <div style="position:absolute;bottom:0;left:0;right:0;height:120px;pointer-events:none;background:linear-gradient(to top,rgba(18,9,4,0.65),transparent);"></div>
+  <div style="position:absolute;bottom:0;left:0;right:0;height:140px;pointer-events:none;background:linear-gradient(to top,rgba(8,5,2,0.45),transparent);"></div>
 
   <!-- Amber bottom line -->
   <div style="position:absolute;bottom:0;left:0;right:0;height:2px;pointer-events:none;background:linear-gradient(90deg,transparent,rgba(193,122,42,0.6),rgba(232,168,75,0.6),transparent);"></div>
@@ -269,14 +277,14 @@
       </div>
 
       <!-- H1 -->
-      <h1 class="fade-up d1 font-display font-black" style="font-size:clamp(52px,7vw,92px);line-height:0.92;letter-spacing:-0.025em;color:var(--cream);margin-bottom:1.75rem;">
-        NETWORK &amp;<br>
-        <span class="text-amber">SECURITY</span><br>
-        CONSULTING
+      <h1 class="fade-up d1" style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(3rem,7vw,6.5rem);line-height:1.05;letter-spacing:-0.01em;color:var(--cream);margin-bottom:1.75rem;">
+        Network &amp;<br>
+        <em style="font-style:italic;color:var(--gold);">Security</em><br>
+        Consulting
       </h1>
 
       <!-- Sub -->
-      <p class="fade-up d2" style="line-height:1.75;max-width:520px;margin-bottom:2.75rem;color:rgba(245,243,240,0.62);font-size:1.08rem;">
+      <p class="fade-up d2" style="font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.65;max-width:520px;margin-bottom:2.75rem;color:rgba(245,243,240,0.62);font-size:1.05rem;">
         Sybric delivers vendor-neutral, enterprise-grade network and security consulting — helping organizations build infrastructure that is secure, resilient, and aligned with business strategy.
       </p>
 
@@ -310,9 +318,39 @@
     </div>
   </div>
 
-  <!-- Scroll cue -->
-  <div style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:0.5rem;opacity:0.3;pointer-events:none;">
-    <div style="width:1px;height:40px;background:linear-gradient(to bottom,#C17A2A,transparent);"></div>
+  <!-- Scrolling text strip — bottom of hero -->
+  <div style="position:absolute;bottom:0;left:0;right:0;z-index:10;background:rgba(18,9,4,0.72);border-top:1px solid rgba(255,255,255,0.08);padding:0.9rem 0;overflow:hidden;white-space:nowrap;">
+    <div style="display:flex;gap:3rem;animation:heroScroll 32s linear infinite;will-change:transform;">
+      <span style="display:inline-flex;align-items:center;gap:3rem;flex-shrink:0;">
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Secure Networks, Trusted Expertise</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Network &amp; Security Design &amp; Architecture</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Datacenter &amp; Disaster Recovery Center Design &amp; Architecture</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Secure Networks, Trusted Expertise</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Network &amp; Security Design &amp; Architecture</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Datacenter &amp; Disaster Recovery Center Design &amp; Architecture</em>
+      </span>
+      <!-- duplicate for seamless loop -->
+      <span style="display:inline-flex;align-items:center;gap:3rem;flex-shrink:0;" aria-hidden="true">
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Secure Networks, Trusted Expertise</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Network &amp; Security Design &amp; Architecture</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Datacenter &amp; Disaster Recovery Center Design &amp; Architecture</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Secure Networks, Trusted Expertise</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Network &amp; Security Design &amp; Architecture</em>
+        <span style="width:6px;height:6px;border-radius:50%;background:#E8A84B;flex-shrink:0;"></span>
+        <em style="font-family:'DM Sans',sans-serif;font-style:italic;font-size:0.95rem;font-weight:400;color:rgba(255,255,255,0.85);letter-spacing:0.01em;">Datacenter &amp; Disaster Recovery Center Design &amp; Architecture</em>
+      </span>
+    </div>
   </div>
 
   <script>
@@ -365,8 +403,8 @@
       tick++;
       ctx.clearRect(0, 0, W, H);
 
-      /* background */
-      ctx.fillStyle = '#120904';
+      /* semi-transparent so photo shows through */
+      ctx.fillStyle = 'rgba(8,5,2,0.25)';
       ctx.fillRect(0, 0, W, H);
 
       /* subtle dot grid */
@@ -482,12 +520,11 @@
         <div class="amber-line w-8"></div>
         <span class="label-tag" style="color:var(--amber);">Our Services</span>
       </div>
-      <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-5"
-          style="font-size:clamp(36px,5vw,58px);color:var(--black);">
-        ENGINEERING<br>
-        <span class="text-amber">SECURE NETWORKS</span>
+      <h2 style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.05;letter-spacing:-0.01em;color:var(--black);margin-bottom:1.25rem;">
+        Engineering<br>
+        <em style="font-style:italic;color:var(--amber);">Secure Networks</em>
       </h2>
-      <p class="leading-[1.75]" style="color:var(--gray);font-size:1.05rem;">
+      <p style="font-family:'DM Sans',sans-serif;font-weight:400;line-height:1.65;color:var(--gray);font-size:1.05rem;">
         From architecture to implementation — we deliver the full stack of network and security services that enterprise organizations require.
       </p>
     </div>
@@ -568,10 +605,9 @@
           <div class="amber-line w-8"></div>
           <span class="label-tag" style="color:var(--amber);">Why Sybric</span>
         </div>
-        <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-6"
-            style="font-size:clamp(36px,5vw,58px);color:var(--cream);">
-          AUTHORITY YOU<br>
-          <span class="text-amber">CAN MEASURE</span>
+        <h2 style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.05;letter-spacing:-0.01em;color:var(--cream);margin-bottom:1.5rem;">
+          Authority You<br>
+          <em style="font-style:italic;color:var(--gold);">Can Measure</em>
         </h2>
         <p class="leading-[1.75] mb-10 max-w-lg" style="color:rgba(245,243,240,0.6);font-size:1.05rem;">
           Our recommendations are built on 20 years of hands-on CCIE-level experience. We speak with authority — and we recommend what is right for the client, not the vendor.
@@ -648,10 +684,9 @@
         <span class="label-tag" style="color:var(--amber);">How We Work</span>
         <div class="amber-line w-8"></div>
       </div>
-      <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-5"
-          style="font-size:clamp(36px,5vw,58px);color:var(--black);">
-        FROM ASSESSMENT<br>
-        <span class="text-amber">TO RESOLUTION</span>
+      <h2 style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.05;letter-spacing:-0.01em;color:var(--black);margin-bottom:1.25rem;">
+        From Assessment<br>
+        <em style="font-style:italic;color:var(--amber);">To Resolution</em>
       </h2>
       <p class="leading-[1.75]" style="color:var(--gray);">A structured engagement model that delivers clear outcomes at every stage.</p>
     </div>
@@ -782,10 +817,9 @@
           <div class="amber-line w-8"></div>
           <span class="label-tag" style="color:var(--amber);">Our Business Partners</span>
         </div>
-        <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-6"
-            style="font-size:clamp(36px,5vw,58px);color:var(--black);">
-          BUILD TOGETHER,<br>
-          <span class="text-amber">GROW TOGETHER</span>
+        <h2 style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.05;letter-spacing:-0.01em;color:var(--black);margin-bottom:1.5rem;">
+          Build Together,<br>
+          <em style="font-style:italic;color:var(--amber);">Grow Together</em>
         </h2>
         <p class="leading-[1.75] mb-10 max-w-lg" style="color:var(--gray);font-size:1.05rem;">
           Sybric partners with systems integrators, managed service providers, and technology vendors to extend enterprise-grade network and security capabilities to a broader client base.
@@ -907,10 +941,9 @@
       <span class="blink w-1.5 h-1.5 rounded-full bg-[var(--gold)]"></span>
       <span class="label-tag" style="color:var(--gold);">Available for New Engagements</span>
     </div>
-    <h2 class="font-display font-extrabold leading-[0.92] tracking-[-0.025em] mb-6"
-        style="font-size:clamp(40px,6vw,72px);color:var(--cream);">
-      READY TO<br>
-      <span class="text-amber">SECURE YOUR NETWORK?</span>
+    <h2 style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(2.4rem,6vw,4.4rem);line-height:1.05;letter-spacing:-0.01em;color:var(--cream);margin-bottom:1.5rem;">
+      Ready To<br>
+      <em style="font-style:italic;color:var(--gold);">Secure Your Network?</em>
     </h2>
     <p class="leading-[1.75] max-w-xl mx-auto mb-10" style="color:rgba(245,243,240,0.6);font-size:1.05rem;">
       Schedule a 30-minute discovery call. We'll assess your current state and identify the highest-impact actions — no obligation, no sales pitch.
@@ -938,10 +971,9 @@
           <div class="amber-line w-8"></div>
           <span class="label-tag" style="color:var(--amber);">Get in Touch</span>
         </div>
-        <h2 class="font-display font-extrabold leading-[0.93] tracking-[-0.02em] mb-6"
-            style="font-size:clamp(36px,5vw,58px);color:var(--black);">
-          LET'S TALK<br>
-          <span class="text-amber">INFRASTRUCTURE</span>
+        <h2 style="font-family:'DM Serif Display',serif;font-weight:400;font-size:clamp(2.4rem,5vw,4.4rem);line-height:1.05;letter-spacing:-0.01em;color:var(--black);margin-bottom:1.5rem;">
+          Let's Talk<br>
+          <em style="font-style:italic;color:var(--amber);">Infrastructure</em>
         </h2>
         <p class="leading-[1.75] mb-10" style="color:var(--gray);font-size:1.05rem;">
           Whether you're evaluating a security posture, planning a network refresh, or exploring a partnership — we're ready to help.
